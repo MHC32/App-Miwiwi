@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, ActivityIndicator, View } from 'react-native';
-import { COLORS } from '../../theme/palette';
+import { COLORS } from '../../../theme/palette';
 import { SvgXml } from 'react-native-svg';
 
 export const PrimaryButton = ({

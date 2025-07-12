@@ -1,7 +1,8 @@
 export const COLORS = {
   primary: {
     main: '#2020030',
-    contrastText: '#FFFFFF', 
+    contrastText: 'rgba(255, 255, 255, 1)', 
+    gray: '#BCBCBC'
   },
 
 
