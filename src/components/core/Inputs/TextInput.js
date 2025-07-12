@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { COLORS } from '../../../theme/palette';
+import { horizontalScale, verticalScale, moderateScale } from '../../utils/responsive';
 
 export const TextInputPrimary = ({
   placeholder = '',
@@ -63,29 +64,30 @@ export const TextInputPrimary = ({
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 325,
-    height: 52,
-    borderRadius: 28,
+    width: horizontalScale(325),
+    height: verticalScale(52),
+    borderRadius: moderateScale(28),
     borderWidth: 1,
     borderColor: '#BCBCBC',
     backgroundColor: COLORS.common.white,
-    paddingHorizontal: 15, // Padding global
+    paddingHorizontal: horizontalScale(15),
   },
   inputStyle: {
     flex: 1,
     height: '100%',
-    fontSize: 16,
-    marginLeft: 10, 
-    marginRight: 10, 
+    fontSize: moderateScale(16),
+    marginLeft: horizontalScale(10),
+    marginRight: horizontalScale(10),
   },
   leftIconContainer: {
-    marginRight: 10, 
+    marginRight: horizontalScale(10),
   },
   rightIcon: {
-    marginLeft: 10,
+    marginLeft: horizontalScale(10),
   },
 });

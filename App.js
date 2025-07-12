@@ -1,24 +1,27 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
-import { TextInputPrimary } from './src/components/core/Inputs/TextInput';
+import { Loader } from './src/components/core/Feedback/Loader';
 import { COLORS } from './src/theme/palette';
-import phoneIcon from './src/assets/icons/call.svg'; // Import direct du SVG
 
 const App = () => {
+    const [quantity, setQuantity] = React.useState('');
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.section}>
-                <TextInputPrimary
-                    placeholder="Numéro de téléphone"
-                    placeholderColor={COLORS.primary.light} // Placeholder bleu clair
-                    LeftIconComponent={phoneIcon} // SVG importé
-                    iconColor={COLORS.alert.negative} // Icône en rouge
-                    textColor={COLORS.secondary.dark}
+                <Loader
+                    customStyle={{
+                        marginTop: 20,
+                        padding: 15,
+                        backgroundColor: COLORS.common.white,
+                        borderRadius: 10
+                    }}
                 />
             </View>
         </SafeAreaView>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -29,8 +32,8 @@ const styles = StyleSheet.create({
     },
     section: {
         marginBottom: 20,
+        alignItems: 'center', // Pour bien centrer le NumericInput
     },
-
 });
 
 export default App;
