@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, ActivityIndicator, View } from 'react-native';
 import { COLORS } from '../../../theme/palette';
 import { SvgXml } from 'react-native-svg';
-import { horizontalScale, verticalScale, moderateScale } from '../../utils/responsive';
+import { horizontalScale, verticalScale, moderateScale } from '../../../utils/responsive';
 
 export const PrimaryButton = ({
     onPress,
@@ -80,6 +80,72 @@ export const SmallButton = ({
     );
 };
 
+export const ButtonWithIcon = ({
+  onPress,
+  title = "Button",
+  loading = false,
+  disabled = false,
+  backgroundColor = COLORS.secondary.dark,
+  textColor = COLORS.primary.contrastText,
+  IconComponent,
+  iconPosition = 'left',
+  iconColor = '',
+  iconSize = 20,
+  buttonStyle = {},
+  textStyle = {}
+}) => {
+  return (
+    <TouchableOpacity
+      style={[
+        styles.button,
+        { backgroundColor },
+        disabled && styles.disabled,
+        buttonStyle
+      ]}
+      onPress={onPress}
+      disabled={disabled || loading}
+      activeOpacity={0.7}
+    >
+      {loading ? (
+        <ActivityIndicator color={textColor} />
+      ) : (
+        <View style={styles.content}>
+          {iconPosition === 'left' && IconComponent && (
+            <View style={[styles.iconContainer, styles.iconLeft]}>
+              <IconComponent
+                width={iconSize}
+                height={iconSize}
+                fill={iconColor}
+              />
+            </View>
+          )}
+          
+          <Text style={[
+            styles.text, 
+            { color: textColor },
+            textStyle
+          ]}>
+            {title}
+          </Text>
+
+          {iconPosition === 'right' && IconComponent && (
+            <View style={[styles.iconContainer, styles.iconRight]}>
+              <IconComponent
+                width={iconSize}
+                height={iconSize}
+                fill={iconColor}
+              />
+            </View>
+          )}
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+};
+
+
+
+
 const styles = StyleSheet.create({
   primaryButton: {
     height: verticalScale(44),
@@ -96,27 +162,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: horizontalScale(15),
   },
-  button: {
-    height: verticalScale(44),
-    minWidth: horizontalScale(332),
-    borderRadius: moderateScale(28),
+ button: {
+    height: 44,
+    minWidth: 332,
+    borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: horizontalScale(20),
+    paddingHorizontal: 20,
     flexDirection: 'row',
   },
-  text: {
-    fontSize: moderateScale(16),
-    fontWeight: '600',
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  smallText: {
-    fontSize: moderateScale(11),
-    fontWeight: '600',
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   iconLeft: {
-    marginRight: horizontalScale(15),
+    marginRight: 15,
   },
   iconRight: {
-    marginLeft: horizontalScale(15),
+    marginLeft: 15,
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  disabled: {
+    opacity: 0.6,
   },
 });

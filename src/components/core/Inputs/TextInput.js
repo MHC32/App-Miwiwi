@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { COLORS } from '../../../theme/palette';
-import { horizontalScale, verticalScale, moderateScale } from '../../utils/responsive';
+import { horizontalScale, verticalScale, moderateScale } from '../../../utils/responsive';
 
 export const TextInputPrimary = ({
   placeholder = '',

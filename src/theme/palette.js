@@ -8,14 +8,13 @@ export const COLORS = {
 
   alert: {
     negative: '#CD262654', 
-    negativeDark: '#CD2626', 
+    negativeDark: '#0a0404ff', 
+    positive: '#26CD4154',
+    positiveDark: '#43A932',
   },
 
   secondary: {
     dark: '#202002',
-    gold: '#CAA432',
-    lightGold: '#BAC241',
-    lightGoldTransparent: 'rgba(186, 194, 65, 0.23)',
   },
 
 
@@ -26,7 +25,7 @@ export const COLORS = {
 
   text: {
     primary: '#202002', 
-    secondary: '#CAA432', 
+    negativeDark: '#CD2626', 
   }
 };
 

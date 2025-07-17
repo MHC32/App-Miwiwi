@@ -10,10 +10,23 @@ const { resolver: defaultResolver } = getDefaultConfig(__dirname);
 const config = {
   transformer: {
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
+    // Ajout pour le support des assets (polices)
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
   },
   resolver: {
     ...defaultResolver,
-    assetExts: defaultResolver.assetExts.filter(ext => ext !== 'svg'),
+    assetExts: [...defaultResolver.assetExts.filter(ext => ext !== 'svg'), 
+      // Ajout des extensions de polices
+      'ttf',
+      'otf',
+      'woff',
+      'woff2'
+    ],
     sourceExts: [...defaultResolver.sourceExts, 'svg'],
   },
 };
