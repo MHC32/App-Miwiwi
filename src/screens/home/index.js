@@ -1,29 +1,38 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { wp, hp } from '../../utils/dimensions';
 import { FONTS } from '../../theme/fonts';
 import { COLORS } from '../../theme/palette';
 import { useSelector } from 'react-redux';
 import { selectCurrentStore } from '../../store/slices/storeSlice';
-import BluetoothDeviceList from '../../components/app/bluetooth/BluetoothDeviceList';
+import DateRangeSection from '../../components/core/sections/DateRangeSection';
 
 const Home = () => {
-  const mockDevices = [
-    { id: '00:11:22:33:AA:BB', name: 'Printer A' },
-    { id: '00:11:22:33:CC:DD', name: 'Scanner B' },
-    { id: '00:11:22:33:EE:FF', name: 'Speaker C' },
-    { id: '00:11:22:33:GG:HH', name: 'Keyboard D' },
-  ];
   const currentStore = useSelector(selectCurrentStore);
   console.log('Current Store:', currentStore);
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(new Date().setDate(1)), // Premier jour du mois
+    endDate: new Date() // Date actuelle
+  });
 
+  console.log('Current Store:', currentStore);
+  console.log('Date Range:', dateRange);
+
+  const handleDateRangeChange = (newDates) => {
+    setDateRange(prev => ({
+      ...prev,
+      ...newDates
+    }));
+
+    // Exemple: Rafraîchir les données ici
+    // fetchData(newDates.startDate, newDates.endDate);
+  };
   return (
     <View style={styles.container}>
-      <BluetoothDeviceList 
-      devices={mockDevices} 
-      onPress={() => {
-    console.log("Appareil sélectionné:");
-  }}
+      <DateRangeSection
+        startDate={dateRange.startDate}
+        endDate={dateRange.endDate}
+        onChange={handleDateRangeChange}
       />
     </View>
   )

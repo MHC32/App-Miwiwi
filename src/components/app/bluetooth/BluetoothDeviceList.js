@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     color: '#323232',
     fontFamily: FONTS.Poppins.medium,
     fontWeight: '500',
-    lineHeight: 16
+    lineHeight: moderateScale(16)
   },
   deviceId: {
     fontSize: moderateScale(11),
