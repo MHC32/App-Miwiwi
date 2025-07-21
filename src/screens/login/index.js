@@ -1,80 +1,106 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { loginStep1, selectAuthLoading, selectAvailableStores } from '../../store/slices/authSlice';
 import { COLORS } from '../../theme/palette';
 import { FONTS } from '../../theme/fonts';
 import { hp, wp } from '../../utils/dimensions';
 import { TextInputPrimary } from '../../components/core/Inputs/TextInput';
+import { ButtonWithIcon } from '../../components/core/Buttons/Button';
+import { Loader } from '../../components/core/Feedback/Loader';
+import { SCREENS } from '../../constant/screens';
 import Call from '../../assets/icons/call.svg';
 import Lock from '../../assets/icons/lock.svg';
 import Door from '../../assets/icons/login.svg';
-import { ButtonWithIcon } from '../../components/core/Buttons/Button';
+
 
 const Login = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    const isLoading = useSelector(selectAuthLoading);
+    const stores = useSelector(selectAvailableStores);
+
+   const handleLogin = async () => {
+        try {
+            await dispatch(loginStep1(phone, password));
+            if (stores.length > 0) {
+                navigation.navigate('storeSelection');
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
+    };
+
+
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.container}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? hp('2%') : 0}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContainer}
-                keyboardShouldPersistTaps="handled"
+        <>
+            {isLoading && <Loader overlay />}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.container}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? hp('2%') : 0}
             >
-                <View style={styles.content}>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.welcomeText}>Bienvenue,</Text>
-                        <Text style={styles.subText}>connectez-vous à votre compte</Text>
-                    </View>
-                    <View style={styles.divider} />
-
-                    <View style={styles.containerInputs}>
-                        <View style={styles.groupeInputs}>
-                            <Text style={styles.labelInputs}>Telephone</Text>
-                            <TextInputPrimary
-                                value={phone}
-                                onChangeText={setPhone}
-                                placeholder="33340014"
-                                placeholderTextColor={COLORS.primary.gray}
-                                LeftIconComponent={Call}
-                                iconColor={COLORS.common.white}
-                                textColor={COLORS.secondary.dark}
-                                style={styles.textInputStyle}
-                            />
+                <ScrollView
+                    contentContainerStyle={styles.scrollContainer}
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <View style={styles.content}>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.welcomeText}>Bienvenue,</Text>
+                            <Text style={styles.subText}>connectez-vous à votre compte</Text>
                         </View>
-                        <View style={styles.groupeInputs}>
-                            <Text style={styles.labelInputs}>Password</Text>
-                            <TextInputPrimary
-                                value={password}
-                                onChangeText={setPassword}
-                                placeholder="*******"
-                                placeholderTextColor={COLORS.primary.gray}
-                                LeftIconComponent={Lock}
-                                iconColor={COLORS.common.white}
-                                textColor={COLORS.secondary.dark}
-                                style={styles.textInputStyle}
-                                secureTextEntry
-                            />
+                        <View style={styles.divider} />
+
+                        <View style={styles.containerInputs}>
+                            <View style={styles.groupeInputs}>
+                                <Text style={styles.labelInputs}>Telephone</Text>
+                                <TextInputPrimary
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                    placeholder="33340014"
+                                    placeholderTextColor={COLORS.primary.gray}
+                                    LeftIconComponent={Call}
+                                    iconColor={COLORS.common.white}
+                                    textColor={COLORS.secondary.dark}
+                                    style={styles.textInputStyle}
+                                />
+                            </View>
+                            <View style={styles.groupeInputs}>
+                                <Text style={styles.labelInputs}>Password</Text>
+                                <TextInputPrimary
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="*******"
+                                    placeholderTextColor={COLORS.primary.gray}
+                                    LeftIconComponent={Lock}
+                                    iconColor={COLORS.common.white}
+                                    textColor={COLORS.secondary.dark}
+                                    style={styles.textInputStyle}
+                                    secureTextEntry
+                                />
+                            </View>
                         </View>
                     </View>
-                </View>
 
-                <View style={styles.buttonContainer}>
-                    <ButtonWithIcon
-                        onPress={() => console.log('Action')}
-                        title="Se connecter"
-                        IconComponent={Door}
-                        textColor={COLORS.common.white}
-                        iconSize={24}
-                        iconPosition='right'
-                        textStyle={styles.textButton}
-                        style={styles.buttonStyle}
-                    />
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                    <View style={styles.buttonContainer}>
+                        <ButtonWithIcon
+                            onPress={handleLogin}
+                            title="Se connecter"
+                            IconComponent={Door}
+                            textColor={COLORS.common.white}
+                            iconSize={24}
+                            iconPosition='right'
+                            textStyle={styles.textButton}
+                            style={styles.buttonStyle}
+                        />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </>
     );
 };
 
@@ -95,7 +121,7 @@ const styles = StyleSheet.create({
     textContainer: {
         alignItems: 'center',
     },
-      welcomeText: {
+    welcomeText: {
         fontFamily: FONTS.Poppins.extraBold,
         fontSize: Platform.select({
             ios: 25,
