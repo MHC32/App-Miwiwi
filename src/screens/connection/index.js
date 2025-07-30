@@ -48,52 +48,40 @@ const Connection = () => {
         listenersRef.current = [pairedListener, foundListener];
     }, []);
 
-   const checkExistingPrinter = useCallback(async () => {
+const checkExistingPrinter = useCallback(async () => {
     const printerAddress = await Storage.get('printerAddress');
     if (printerAddress) {
         try {
             setLoading(true);
             
-            // On ne peut pas lister directement les appareils appairés, donc on:
-            // 1. Active le Bluetooth si nécessaire
+            // Active le Bluetooth si nécessaire
             if (!isBluetoothOn) {
                 await BluetoothManager.enableBluetooth();
                 setIsBluetoothOn(true);
-            }
-            
-            // 2. Lance une recherche pour déclencher EVENT_DEVICE_ALREADY_PAIRED
-            await BluetoothManager.scanDevices();
-            
-            // 3. On attend un peu que les appareils appairés soient détectés
-            // (ils seront reçus via l'event listener déjà configuré)
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // 4. On vérifie si l'appareil sauvegardé est dans pairedDevices
-            const existingPrinter = pairedDevices.find(device => device.address === printerAddress);
-            
-            if (existingPrinter) {
-                // Tentative de connexion
-                await BluetoothManager.connect(printerAddress);
-                setConnectedDevice(existingPrinter);
-                
-                // Petite pause pour laisser la connexion s'établir
+                // Petit délai après activation
                 await new Promise(resolve => setTimeout(resolve, 500));
-                
-                // Vérifier que la connexion est bien établie
-                const isConnected = await BluetoothManager.isConnected();
-                if (isConnected) {
-                    ToastAndroid.show('Imprimante reconnectée avec succès', ToastAndroid.LONG);
-                    navigation.navigate(SCREENS.HOME_SCREEN);
-                    return;
-                }
             }
             
-            // Si on arrive ici, la connexion a échoué
-            ToastAndroid.show(
-                'Connexion à l\'imprimante configurée a échoué. Veuillez reconfigurer.',
-                ToastAndroid.LONG
-            );
-            await Storage.remove('printerAddress');
+            // Tentative de connexion directe
+            try {
+                await BluetoothManager.connect(printerAddress);
+                
+                // Si la connexion réussit sans erreur, on considère qu'elle est établie
+                setConnectedDevice({ address: printerAddress });
+                
+                // Test rapide de l'imprimante
+                await BluetoothEscposPrinter.printerInit();
+                await BluetoothEscposPrinter.printText('\n', {}); // Envoi d'une ligne vide
+                
+                ToastAndroid.show('Imprimante reconnectée avec succès', ToastAndroid.LONG);
+                navigation.navigate(SCREENS.HOME_SCREEN);
+                return;
+                
+            } catch (connectError) {
+                console.error('Erreur de connexion:', connectError);
+                throw new Error('Échec de connexion');
+            }
+            
         } catch (error) {
             console.error('Erreur reconnexion imprimante:', error);
             ToastAndroid.show(
@@ -105,7 +93,7 @@ const Connection = () => {
             setLoading(false);
         }
     }
-}, [navigation, isBluetoothOn, pairedDevices]);
+}, [navigation, isBluetoothOn]);
 
     const checkBluetoothStatus = useCallback(() => {
         BluetoothManager.isBluetoothEnabled()
