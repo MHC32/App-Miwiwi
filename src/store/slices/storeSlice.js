@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { Storage } from '../../helpers';
 
 const initialState = {
   currentStore: null,
@@ -18,6 +18,11 @@ const storeSlice = createSlice({
       state.error = null;
     },
 
+    // STOP LOADING
+    stopLoading(state) {
+      state.isLoading = false;
+    },
+
     // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
@@ -26,20 +31,20 @@ const storeSlice = createSlice({
 
     // SET STORE DATA
     setStoreData(state, action) {
-      state.currentStore = action.payload.store;
-      state.company = action.payload.company;
+      // Ajoutez une validation supplémentaire
+      const payload = action.payload || {};
+      state.currentStore = payload.store || null;
+      state.company = payload.company || {
+        id: 'default-company',
+        name: 'Default Company',
+        currency: 'USD'
+      };
       state.isLoading = false;
     },
-
     // CLEAR STORE DATA
     clearStoreData(state) {
       state.currentStore = null;
       state.company = null;
-    },
-
-    // SET STORES LIST (optionnel si besoin d'accès global)
-    setStoresList(state, action) {
-      state.storesList = action.payload;
     }
   }
 });
@@ -48,29 +53,55 @@ const storeSlice = createSlice({
 export default storeSlice.reducer;
 
 // Actions
-export const { setStoreData, clearStoreData, setStoresList } = storeSlice.actions;
+export const {
+  setStoreData,
+  clearStoreData,
+  stopLoading
+} = storeSlice.actions;
 
 // ----------------------------------------------------------------------
 
 // Action pour mettre à jour les données du store après loginStep2
 export function updateStoreData(storeData) {
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
-      const { store, company } = storeData;
-      dispatch(setStoreData({
+      // Accepte maintenant soit la structure complète, soit juste l'objet store
+      const normalizedData = storeData.store ? storeData : { store: storeData };
+
+      const payload = {
         store: {
-          id: store.id,
-          name: store.name,
-          photo: store.photo
+          id: normalizedData.store.id,
+          name: normalizedData.store.name,
+          photo: normalizedData.store.photo || null
         },
-        company: {
-          id: company.id,
-          name: company.name,
-          currency: company.currency
+        company: normalizedData.company || {
+          id: 'comp-' + normalizedData.store.id,
+          name: normalizedData.store.name + ' Company',
+          currency: 'USD'
         }
-      }));
+      };
+
+      dispatch(setStoreData(payload));
+      await Storage.store('storeData', JSON.stringify(payload));
     } catch (error) {
+      console.error('Erreur updateStoreData:', error);
       dispatch(storeSlice.actions.hasError(error.message));
+    }
+  };
+}
+
+export function restoreStoreData() {
+  return async (dispatch) => {
+    try {
+      // Récupérer les données du store depuis le stockage
+      const storeData = await Storage.get('storeData', true);
+
+      if (storeData) {
+        dispatch(setStoreData(storeData));
+      }
+
+    } catch (error) {
+      console.error('Failed to restore store data:', error);
     }
   };
 }

@@ -1,18 +1,18 @@
-import React from 'react';
+// src/guards/GuestGuard.js
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
-import { SCREENS } from '../constant';
+import { selectAuthToken } from '../store/slices/authSlice';
 
 const GuestGuard = ({ children }) => {
-  const authToken = useSelector(state => state.auth?.authToken);
   const navigation = useNavigation();
+  const authToken = useSelector(selectAuthToken);
 
   useEffect(() => {
     if (authToken) {
-      navigation.navigate(SCREENS.HOME);
+      navigation.navigate('home');
     }
-  }, [authToken, navigation]);
+  }, [navigation,authToken]);
 
   return !authToken ? children : null;
 };

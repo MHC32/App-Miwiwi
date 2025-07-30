@@ -8,7 +8,7 @@ export const COLORS = {
 
   alert: {
     negative: '#CD262654', 
-    negativeDark: '#0a0404ff', 
+    negativeDark: '#CD2626', 
     positive: '#26CD4154',
     positiveDark: '#43A932',
   },

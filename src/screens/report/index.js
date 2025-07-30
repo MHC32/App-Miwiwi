@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const BottomTab = () => {
+const Report = () => {
   return (
     <View>
-      <Text>BottomTab</Text>
+      <Text>Report</Text>
     </View>
   )
 }
 
-export default BottomTab
+export default Report

@@ -22,8 +22,8 @@ const BluetoothDeviceList = ({ devices = [], onPress }) => {
               onPress={() => onPress && onPress(device)} // Appel de la fonction onPress avec l'appareil
               activeOpacity={0.7} // Optionnel : effet de transparence au clic
             >
-              <Text style={styles.deviceName}>{device.name}</Text>
-              <Text style={styles.deviceId}>{device.id}</Text>
+              <Text style={styles.deviceName}>{device.name || "Unknow"}</Text>
+              <Text style={styles.deviceId}>{device.address || device.id}</Text>
             </TouchableOpacity>
           ))
         ) : (

@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, Text, ActivityIndicator, View } from 'rea
 import { COLORS } from '../../../theme/palette';
 import { SvgXml } from 'react-native-svg';
 import { horizontalScale, verticalScale, moderateScale } from '../../../utils/responsive';
+import { FONTS } from '../../../theme/fonts';
 
 export const PrimaryButton = ({
     onPress,
@@ -47,8 +48,8 @@ export const SmallButton = ({
     loading = false,
     disabled = false,
     backgroundColor = COLORS.secondary.dark,
-    textColor = COLORS.primary.contrastText,
-    width = 108
+    textColor = COLORS.common.black,
+    width = 130
 }) => {
     return (
         <TouchableOpacity
@@ -148,19 +149,28 @@ export const ButtonWithIcon = ({
 
 const styles = StyleSheet.create({
   primaryButton: {
-    height: verticalScale(44),
-    minWidth: horizontalScale(332),
+    height: verticalScale(43),
+    minWidth: horizontalScale(317),
     borderRadius: moderateScale(28),
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: horizontalScale(20),
   },
   smallButton: {
-    height: verticalScale(41),
+    height: verticalScale(43),
     borderRadius: moderateScale(25),
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: horizontalScale(15),
+    borderWidth: 1,
+    borderColor: COLORS.primary.gray
+  },
+  
+  smallText: {
+    fontSize: moderateScale(13),
+    fontWeight: '600',
+    fontFamily: FONTS.Poppins.semiBold,
+    lineHeight: '100%',
   },
  button: {
     height: 44,
@@ -170,6 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     flexDirection: 'row',
+    
   },
   content: {
     flexDirection: 'row',

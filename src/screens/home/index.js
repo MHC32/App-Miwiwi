@@ -1,39 +1,58 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React, { useState } from 'react'
 import { wp, hp } from '../../utils/dimensions';
 import { FONTS } from '../../theme/fonts';
 import { COLORS } from '../../theme/palette';
 import { useSelector } from 'react-redux';
 import { selectCurrentStore } from '../../store/slices/storeSlice';
-import DateRangeSection from '../../components/core/sections/DateRangeSection';
+import Ticket from '../../assets/icons/receipt-add.svg';
+import { ButtonWithIcon } from '../../components/core/Buttons/Button';
+import { useNavigation } from '@react-navigation/native';
+
 
 const Home = () => {
   const currentStore = useSelector(selectCurrentStore);
-  console.log('Current Store:', currentStore);
-  const [dateRange, setDateRange] = useState({
-    startDate: new Date(new Date().setDate(1)), // Premier jour du mois
-    endDate: new Date() // Date actuelle
-  });
+  const navigation = useNavigation()
 
   console.log('Current Store:', currentStore);
-  console.log('Date Range:', dateRange);
 
-  const handleDateRangeChange = (newDates) => {
-    setDateRange(prev => ({
-      ...prev,
-      ...newDates
-    }));
 
-    // Exemple: Rafraîchir les données ici
-    // fetchData(newDates.startDate, newDates.endDate);
-  };
+
   return (
     <View style={styles.container}>
-      <DateRangeSection
-        startDate={dateRange.startDate}
-        endDate={dateRange.endDate}
-        onChange={handleDateRangeChange}
-      />
+      <View style={styles.divider} />
+      <Text style={styles.title}>Bienvenue,</Text>
+      <Text style={styles.storeName}>{currentStore?.name || 'Sélectionnez un magasin'}</Text>
+      <View style={styles.divider} />
+      <View style={styles.containerImage}>
+        <Image
+          source={{ uri: currentStore?.photo }}
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="cover"
+        />
+      </View>
+      <View style={styles.divider} />
+
+      <ButtonWithIcon
+        title="créer un ticket"
+        IconComponent={Ticket}
+        textColor={COLORS.common.black}
+        iconSize={24}
+        iconPosition='left'
+        buttonStyle={styles.buttonStyle}
+        textStyle={styles.textButton}
+        />
+
+      <ButtonWithIcon
+        title="liste ticket"
+        IconComponent={Ticket}
+        textColor={COLORS.common.black}
+        iconSize={24}
+        iconPosition='left'
+        buttonStyle={styles.buttonStyle}
+        textStyle={styles.textButton}
+        onPress={()=> navigation.navigate('CONNECTION')}
+        />
     </View>
   )
 }
@@ -42,8 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.common.white,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: wp('5%'),
   },
   divider: {
     height: wp('15%'),
@@ -63,7 +81,29 @@ const styles = StyleSheet.create({
     color: COLORS.primary.main,
     marginLeft: wp('5%'),
     marginTop: hp('1%'),
-  }
+  },
+  containerImage: {
+    width: wp('80%'),
+    height: hp('30%'),
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginBottom: hp('2%'),
+    borderWidth: 0.5,
+    borderColor: COLORS.common.gray,
+    alignSelf: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: COLORS.common.white,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.primary.gray,
+    width: 250,
+    height: 58,
+    alignSelf: 'center',
+    marginBottom: hp('2%'),
+  },
 })
 
 export default Home

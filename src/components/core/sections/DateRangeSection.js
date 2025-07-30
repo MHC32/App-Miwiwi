@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     marginTop: verticalScale(15),
     padding: moderateScale(10),
-    backgroundColor: COLORS.alert.negative,
+    backgroundColor: COLORS.text.negativeDark,
     borderRadius: moderateScale(8),
     alignItems: 'center',
   },

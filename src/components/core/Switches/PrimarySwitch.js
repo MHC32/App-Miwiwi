@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Pressable, Animated, View } from "react-native";
-import LinearGradient from 'react-native-linear-gradient';
 import { COLORS } from "../../../theme/palette";
-
-const defaultStyles = {
-    bgGradientColors: ['#FFFFFF', '#FFFFFF'],
-    headGradientColors: ['#0a0404ff', '#0a0404ff'], 
-};
-
-const activeStyles = {
-    bgGradientColors: ['#FFFFFF', '#FFFFFF'], 
-    headGradientColors: ['#0a0404ff', '#0a0404ff'], 
-};
 
 const PrimarySwitch = ({ 
     value = false, 
@@ -32,51 +21,53 @@ const PrimarySwitch = ({
         outputRange: [4, 28],
     });
 
-    const toggleSwitch = () => onValueChange(!value);
-    const currentStyles = value ? activeStyles : defaultStyles;
+    const toggleSwitch = (e) => onValueChange(!value);
 
     return (
-        <Pressable onPress={toggleSwitch} style={styles.pressable}>
-            <LinearGradient
-                colors={currentStyles.bgGradientColors}
-                style={styles.backgroundGradient}
-                start={{ x: 0, y: 0.5 }}
-            >
-                <View style={styles.innerContainer}>
-                    <Animated.View style={{ transform: [{ translateX }] }}>
-                        <LinearGradient
-                            colors={currentStyles.headGradientColors}
-                            style={styles.headGradient}
-                        />
-                    </Animated.View>
-                </View>
-            </LinearGradient>
+        <Pressable 
+            onPress={toggleSwitch} 
+            style={[
+                styles.container, 
+                value ? styles.containerActive : styles.containerInactive
+            ]}
+        >
+            <Animated.View 
+                style={[
+                    styles.thumb, 
+                    { transform: [{ translateX }] },
+                    value ? styles.thumbActive : styles.thumbInactive
+                ]} 
+            />
         </Pressable>
     );
 };
 
 const styles = StyleSheet.create({
-    pressable: {
+    container: {
         width: 55,
         height: 26,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: COLORS.primary.gray, 
+        borderColor: COLORS.primary.gray,
+        justifyContent: 'center',
+        padding: 2,
     },
-    backgroundGradient: {
-        borderRadius: 16,
-        flex: 1,
+    containerActive: {
+        backgroundColor: '#FFFFFF', 
     },
-    innerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-        position: 'relative',
+    containerInactive: {
+        backgroundColor: '#FFFFFF', 
     },
-    headGradient: {
-        width: 24,
-        height: 24,
-        borderRadius: 100,
+    thumb: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+    },
+    thumbActive: {
+        backgroundColor: '#0a0404ff',
+    },
+    thumbInactive: {
+        backgroundColor: '#0a0404ff', 
     },
 });
 

@@ -1,3 +1,11 @@
 export const HOME = 'HOME';
 export const LOGIN = 'LOGIN';
 export const STORE_SELECTION = 'STORE_SELECTION'; 
+export const CONFIGURATION = 'CONFIGURATION';
+export const REPORT = 'REPORT';
+export const SPLASH_SCREEN = 'SPLASH_SCREEN';
+export const HOME_SCREEN = 'HOME_SCREEN';
+export const HOME_TAB = 'HOME_TAB';
+export const CONNECTION = 'CONNECTION';
+export const PROFIL = 'PROFIL';
+export const SETTINGS = 'SETTINGS';
