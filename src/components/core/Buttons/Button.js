@@ -4,6 +4,8 @@ import { COLORS } from '../../../theme/palette';
 import { SvgXml } from 'react-native-svg';
 import { horizontalScale, verticalScale, moderateScale } from '../../../utils/responsive';
 import { FONTS } from '../../../theme/fonts';
+import { hp, wp } from '../../../utils/dimensions';
+
 
 export const PrimaryButton = ({
     onPress,
@@ -90,7 +92,8 @@ export const ButtonWithIcon = ({
   textColor = COLORS.primary.contrastText,
   IconComponent,
   iconPosition = 'left',
-  iconColor = '',
+  iconColor = undefined,
+  strokeColor= undefined,
   iconSize = 20,
   buttonStyle = {},
   textStyle = {}
@@ -117,6 +120,7 @@ export const ButtonWithIcon = ({
                 width={iconSize}
                 height={iconSize}
                 fill={iconColor}
+                stroke={strokeColor}
               />
             </View>
           )}
@@ -135,6 +139,7 @@ export const ButtonWithIcon = ({
                 width={iconSize}
                 height={iconSize}
                 fill={iconColor}
+                stroke={strokeColor}
               />
             </View>
           )}
@@ -173,13 +178,15 @@ const styles = StyleSheet.create({
     lineHeight: '100%',
   },
  button: {
-    height: 44,
-    minWidth: 332,
+    height: hp('7.9%'),
+    width: wp('79%'),
     borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
     flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.primary.gray,
     
   },
   content: {

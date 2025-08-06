@@ -9,3 +9,4 @@ export const HOME_TAB = 'HOME_TAB';
 export const CONNECTION = 'CONNECTION';
 export const PROFIL = 'PROFIL';
 export const SETTINGS = 'SETTINGS';
+export const TICKET_CREATION = 'TICKET_CREATION';

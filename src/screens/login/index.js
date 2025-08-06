@@ -22,6 +22,7 @@ import { SCREENS }  from '../../constant';
 import Call from '../../assets/icons/call.svg';
 import Lock from '../../assets/icons/lock.svg';
 import Door from '../../assets/icons/login.svg';
+import { horizontalScale, verticalScale } from '../../utils/responsive';
 
 // Schéma de validation avec Yup
 const LoginSchema = Yup.object().shape({
@@ -152,7 +153,7 @@ const Login = () => {
                     iconSize={24}
                     iconPosition='right'
                     textStyle={styles.textButton}
-                    style={styles.buttonStyle}
+                    buttonStyle={styles.buttonStyle}
                     disabled={isLoading}
                   />
                 </View>
@@ -226,7 +227,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonStyle: {
-    width: '90%',
+    width: horizontalScale(325),
+    height: verticalScale(58),
   },
   textButton: {
     fontWeight: '600',

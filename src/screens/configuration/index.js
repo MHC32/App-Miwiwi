@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '../../constant';
 import { hp, wp } from '../../utils/dimensions';
 import User from '../../assets/icons/user.svg';
-import ReceiptAdd from '../../assets/icons/receipt-add.svg';
+import ReceiptAdd from '../../assets/icons/receipt-add-black.svg';
 import Printer from '../../assets/icons/Vector.svg';
 import { horizontalScale, moderateScale, verticalScale } from '../../utils/responsive';
 
@@ -55,6 +55,7 @@ const Configuration = () => {
             style={styles.buttonStyle}
             disabled={isLoading}
             buttonStyle={styles.buttonWithoutBG}
+            iconColor={COLORS.common.white}
           />
 
           <ButtonWithIcon
@@ -69,6 +70,7 @@ const Configuration = () => {
             style={styles.buttonStyle}
             disabled={isLoading}
             buttonStyle={styles.buttonWithoutBG}
+            iconColor={COLORS.common.white}
           />
 
           <ButtonWithIcon
@@ -83,6 +85,7 @@ const Configuration = () => {
             style={styles.buttonStyle}
             disabled={isLoading}
             buttonStyle={styles.buttonWithoutBG}
+            iconColor={COLORS.common.white}
           />
         </View>
       </View>
@@ -96,7 +99,7 @@ const Configuration = () => {
           iconSize={24}
           iconPosition="right"
           textStyle={styles.textButton}
-          style={styles.buttonStyle}
+          buttonStyle={styles.buttonStyle}
           disabled={isLoading}
         />
       </View>
@@ -117,21 +120,20 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     width: wp('100%'),
-    height: hp('20%'),
+    height: hp('25%'),
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   buttonWithoutBG: {
-    width: horizontalScale(317),
-    height: verticalScale(43),
+    width: horizontalScale(325),
+    height: verticalScale(58),
     borderRadius: moderateScale(28),
     borderWidth: 1,
     borderColor: COLORS.primary.gray,
   },
   buttonStyle: {
-    backgroundColor: COLORS.common.black,
-    paddingVertical: 15,
-    borderRadius: 8,
+    width: horizontalScale(325),
+    height: verticalScale(58),
   },
   textButton: {
     fontSize: 16,

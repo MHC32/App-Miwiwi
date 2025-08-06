@@ -5,7 +5,7 @@ import { horizontalScale, verticalScale, moderateScale } from '../../../utils/re
 
 export const TextInputPrimary = ({
   placeholder = '',
-  placeholderColor = '#BCBCBC', // Couleur dynamique du placeholder
+  placeholderColor = '#BCBCBC', 
   LeftIconComponent,
   RightIconComponent,
   onLeftIconPress,

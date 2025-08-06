@@ -7,6 +7,7 @@ import SplashScreen from './splashscreen';
 import Connection from './connection';
 import Profil from './Profil';
 import Settings from './settings';
+import TicketCreation from './TicketCreation';
 
 
 export {
@@ -18,5 +19,6 @@ export {
     SplashScreen,
     Connection,
     Profil,
-    Settings
+    Settings,
+    TicketCreation
 }

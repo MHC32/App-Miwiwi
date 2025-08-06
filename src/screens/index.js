@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { SCREENS } from '../constant';
-import { Login, StoreSelection, Home, Configuration, Report,  Connection, Profil, Settings } from './screens';
+import { Login, StoreSelection, Home, Configuration, Report,  Connection, Profil, Settings, TicketCreation } from './screens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ConfigurationIcon from '../assets/icons/configuration.svg';
 import ReportIcon from '../assets/icons/statistics.svg';
@@ -31,7 +31,7 @@ const HomeScreen = () => {
         tabBarStyle: {
           backgroundColor: COLORS.common.black,
           height: 60,
-          bottom: 20,
+          bottom: 15,
           width: tabBarWidth,
           alignSelf: 'center',
           borderRadius: 28,
@@ -53,21 +53,21 @@ const HomeScreen = () => {
         name={SCREENS.HOME}
         component={Home}
         options={{
-          tabBarIcon: ({ color }) => <HomeIcon fill={color} width={34} height={34} />,
+          tabBarIcon: ({ color }) => <HomeIcon  width={34} height={34} />,
         }}
       />
       <Tab.Screen
         name={SCREENS.REPORT}
         component={Report}
         options={{
-          tabBarIcon: ({ color }) => <ReportIcon fill={color} width={34} height={34} />,
+          tabBarIcon: ({ color }) => <ReportIcon width={34} height={34} />,
         }}
       />
       <Tab.Screen
         name={SCREENS.CONFIGURATION}
         component={Configuration}
         options={{
-          tabBarIcon: ({ color }) => <ConfigurationIcon fill={color} width={34} height={34} />,
+          tabBarIcon: ({ color }) => <ConfigurationIcon  width={34} height={34} />,
         }}
       />
     </Tab.Navigator>
@@ -88,7 +88,7 @@ const AppNavigator = () => {
   useEffect(() => {
     const initAuth = async () => {
       await dispatch(checkAuthState());
-      setIsReady(true); // ← Attendre que le state soit prêt
+      setIsReady(true);
     };
     initAuth();
   }, [dispatch]);
@@ -112,7 +112,8 @@ const AppNavigator = () => {
         <Stack.Screen name={SCREENS.HOME_SCREEN} component={HomeScreen} />
         <Stack.Screen name={SCREENS.CONNECTION} component={Connection}/>
          <Stack.Screen name={SCREENS. PROFIL} component={Profil}/>
-          <Stack.Screen name={SCREENS.SETTINGS} component={Settings}/>
+        <Stack.Screen name={SCREENS.SETTINGS} component={Settings}/>
+        <Stack.Screen name={SCREENS.TICKET_CREATION} component={TicketCreation}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

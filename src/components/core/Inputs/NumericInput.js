@@ -1,17 +1,17 @@
 import React from 'react';
 import { TextInput, StyleSheet, View } from 'react-native';
 import { COLORS } from '../../../theme/palette';
-import { horizontalScale, verticalScale, moderateScale } from '../../utils/responsive';
+import { horizontalScale, verticalScale, moderateScale } from '../../../utils/responsive';
 
 export const NumericInput = ({
   value,
   onChangeText,
   placeholder = '',
   placeholderColor = COLORS.secondary.light,
-  borderColor = COLORS.alert.negative,
+  borderColor = COLORS.primary.gray,
   backgroundColor = COLORS.common.white,
-  textColor = COLORS.primary.main,
-  maxLength = 2,
+  textColor = COLORS.primary.black,
+  maxLength = 10,
   keyboardType = 'numeric',
   inputStyle = {},
   containerStyle = {},
